@@ -1,1 +1,23 @@
-Hello World!
+<!DOCTYPE html>
+<html lang="en">
+    <head>        
+    </head>
+
+    <body>
+        <p>Registration Status: <strong id="status"></strong></p>
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js', { scope: './' })
+                    .then(function (serviceWorkerRegistration) {
+                        document.getElementById('status').innerHTML = 'Successful';
+                    })
+                    .catch(function (error) {
+                        document.getElementById('status').innerHTML = 'Error';
+                    });
+            } else {
+                document.getElementById('status').innerHTML = 'Unavailable'
+            }
+        </script>
+    </body>
+</html>
