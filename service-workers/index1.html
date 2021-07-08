@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>        
+        <meta charset="UTF-8">
+        <title>Detailed Registration</title>
+    </head>
+
+    <body>
+        <p>Registration Status: <strong id="status"></strong></p>
+        <p>State: <strong id="state"></strong></p>
+
+        <script>
+            function printState(state) {
+                document.getElementById('state').innerHTML = state;
+            }
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker-1.js', { scope: './' })
+                    .then(function (serviceWorkerRegistration) {
+                        var serviceWorker; 
+
+                        document.getElementById('status').innerHTML = 'Successful';
+
+                        if (serviceWorkerRegistration.installing) {
+                            serviceWorker = serviceWorkerRegistration.installing;
+                            printState('installing');
+                        } else if (serviceWorkerRegistration.waiting) {
+                            serviceWorker = serviceWorkerRegistration.waiting;
+                            printState('waiting');
+                        } else if (serviceWorkerRegistration.active) {
+                            serviceWorker = serviceWorkerRegistration.active;
+                            printState('active');
+                        }
+
+                        if (serviceWorker) {
+                            printState(serviceWorker.state);
+
+                            serviceWorker.addEventListener('statechange', function(e) {
+                                printState(e.target.state);
+                            });
+                        }
+                    })
+                    .catch(function (error) {
+                        document.getElementById('status').innerHTML = 'Error';
+                    });
+            } else {
+                document.getElementById('status').innerHTML = 'Unavailable'
+            }
+        </script>
+    </body>
+</html>
