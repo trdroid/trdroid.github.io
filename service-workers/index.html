@@ -11,6 +11,12 @@
                 navigator.serviceWorker.register('service-worker.js', { scope: './' })
                     .then(function (serviceWorkerRegistration) {
                         document.getElementById('status').innerHTML = 'Successful';
+
+                        setTimeout(function() {
+                            serviceWorkerRegistration.unregister().then(function() {
+                            document.getElementById('status').innerHTML = 'Unregistered';
+                        });
+                        }, 2000);
                     })
                     .catch(function (error) {
                         document.getElementById('status').innerHTML = 'Error';
